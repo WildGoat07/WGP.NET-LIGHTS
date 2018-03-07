@@ -2,7 +2,7 @@
 
 # WGP.NET-LIGHTS
 
-A light managing module for SFML. **CURRENTLY NOT WORKING, IN DEVELOPPEMENT**.
+A light managing module for SFML.
 
 ## Dependencies
 
