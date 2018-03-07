@@ -61,9 +61,20 @@ namespace WGP.LIGHTS
             return tmp;
         }
         /// <summary>
-        /// Updates the textures to match the lights and walls.
+        /// Adds a new wall.
         /// </summary>
-        public void UpdateTargets()
+        /// <param name="body">The body of the wall.</param>
+        /// <returns>New wall.</returns>
+        public Wall NewWall(Segment body)
+        {
+            Wall tmp = new Wall() { Body = body };
+            Walls.Add(tmp);
+            return tmp;
+        }
+        /// <summary>
+        /// Updates the texture to match the lights and walls.
+        /// </summary>
+        public void UpdateTarget()
         {
             if (Target != null)
             {
@@ -74,17 +85,38 @@ namespace WGP.LIGHTS
                 {
                     List<Vertex> vertices = new List<Vertex>();
                     vertices.Add(new Vertex(light.Position, light.Color));
-                    for (var i = (light.Angle - light.Field / 2); i < (light.Angle + light.Field / 2); i += Angle.FromDegrees(1 / light.Precision))
+                    List<Wall> collisionWall = new List<Wall>();
+                    foreach (var wall in Walls)
                     {
-                        Vertex vertex = new Vertex();
-                        vertex.Position = light.Position + i.GenerateVector(light.Radius);
-                        vertex.Color = Color.Black;
-                        vertices.Add(vertex);
+                        for (float i = 0; i < wall.Body.Length + light.Radius; i += light.Radius)
+                        {
+                            if ((wall.Body.GetPoint(i) - light.Position).Length() < light.Radius)
+                            {
+                                collisionWall.Add(wall);
+                                i = wall.Body.Length + 1 + light.Radius;
+                            }
+                        }
+
                     }
+                    for (var i = light.Angle - light.Field / 2; i < (light.Angle + light.Field / 2); i += Angle.FromDegrees(1 / light.Precision))
                     {
+                        Wall closestWall = null;
                         Vertex vertex = new Vertex();
-                        vertex.Position = light.Position + (light.Angle + light.Field / 2).GenerateVector(light.Radius);
-                        vertex.Color = Color.Black;
+                        Segment radius = new Segment(light.Position, light.Position + i.GenerateVector(light.Radius));
+                        foreach (var wall in collisionWall)
+                        {
+                            if (wall.Body.Collision(radius))
+                            {
+                                radius.Length = (wall.Body.Intersection(radius) - light.Position).Length();
+                                closestWall = wall;
+                            }
+                        }
+                        float perc = Utilities.Percent(radius.Length, light.Radius, 0);
+                        vertex.Color = new Color(
+                            (byte)(light.Color.R * perc),
+                            (byte)(light.Color.G * perc),
+                            (byte)(light.Color.B * perc));
+                        vertex.Position = radius.GetPoint(radius.Length);
                         vertices.Add(vertex);
                     }
                     Target.Draw(vertices.ToArray(), PrimitiveType.TrianglesFan, new RenderStates(BlendMode.Add));
