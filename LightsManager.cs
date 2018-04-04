@@ -90,7 +90,7 @@ namespace WGP.LIGHTS
                     {
                         for (float i = 0; i < wall.Body.Length + light.Radius; i += light.Radius)
                         {
-                            if ((wall.Body.GetPoint(i) - light.Position).Length() < light.Radius)
+                            if ((wall.Body.GetPoint(i) - light.Position).GetLength() < light.Radius)
                             {
                                 collisionWall.Add(wall);
                                 i = wall.Body.Length + 1 + light.Radius;
@@ -107,7 +107,7 @@ namespace WGP.LIGHTS
                         {
                             if (wall.Body.Collision(radius))
                             {
-                                radius.Length = (wall.Body.Intersection(radius) - light.Position).Length();
+                                radius.Length = (wall.Body.Intersection(radius) - light.Position).GetLength();
                                 closestWall = wall;
                             }
                         }
