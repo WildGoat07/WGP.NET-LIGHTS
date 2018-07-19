@@ -56,7 +56,7 @@ namespace WGP.LIGHTS
         /// <returns>New wall.</returns>
         public Wall NewWall()
         {
-            Wall tmp = new Wall();
+            Wall tmp = new Wall() { Body = new Segment() };
             Walls.Add(tmp);
             return tmp;
         }
@@ -103,6 +103,27 @@ namespace WGP.LIGHTS
                         Wall closestWall = null;
                         Vertex vertex = new Vertex();
                         Segment radius = new Segment(light.Position, light.Position + i.GenerateVector(light.Radius));
+                        foreach (var wall in collisionWall)
+                        {
+                            if (wall.Body.Collision(radius))
+                            {
+                                radius.Length = (wall.Body.Intersection(radius) - light.Position).GetLength();
+                                closestWall = wall;
+                            }
+                        }
+                        float perc = Utilities.Percent(radius.Length, light.Radius, 0);
+                        vertex.Color = new Color(
+                            (byte)(light.Color.R * perc),
+                            (byte)(light.Color.G * perc),
+                            (byte)(light.Color.B * perc));
+                        vertex.Position = radius.GetPoint(radius.Length);
+                        vertices.Add(vertex);
+                    }
+                    if (light.Field == Angle.Loop)
+                    {
+                        Wall closestWall = null;
+                        Vertex vertex = new Vertex();
+                        Segment radius = new Segment(light.Position, light.Position + (light.Angle - Angle.FromDegrees(180)).GenerateVector(light.Radius));
                         foreach (var wall in collisionWall)
                         {
                             if (wall.Body.Collision(radius))
