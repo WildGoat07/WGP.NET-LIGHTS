@@ -119,7 +119,7 @@ namespace WGP.LIGHTS
                         vertex.Position = radius.GetPoint(radius.Length);
                         vertices.Add(vertex);
                     }
-                    Target.Draw(vertices.ToArray(), PrimitiveType.TrianglesFan, new RenderStates(BlendMode.Add));
+                    Target.Draw(vertices.ToArray(), PrimitiveType.TriangleFan, new RenderStates(BlendMode.Add));
                 }
                 Target.Display();
             }
