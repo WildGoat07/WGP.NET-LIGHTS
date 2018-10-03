@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WGP.NET-LIGHTS</name>
+    </assembly>
+    <members>
+        <member name="T:WGP.LIGHTS.Light">
+            <summary>
+            Basic light. 
+            </summary>
+        </member>
+        <member name="P:WGP.LIGHTS.Light.Position">
+            <summary>
+            Position of the center of the light.
+            </summary>
+        </member>
+        <member name="P:WGP.LIGHTS.Light.Radius">
+            <summary>
+            Radius of the light.
+            </summary>
+        </member>
+        <member name="P:WGP.LIGHTS.Light.Precision">
+            <summary>
+            The precision is an index between 0 and 1, corresponding to the number of vertex per degree.
+            </summary>
+        </member>
+        <member name="P:WGP.LIGHTS.Light.Angle">
+            <summary>
+            The angle of the light. The light will point to this angle. Visible only if the Field is smaller than 360.
+            </summary>
+        </member>
+        <member name="P:WGP.LIGHTS.Light.Field">
+            <summary>
+            Field of the spot light.
+            </summary>
+        </member>
+        <member name="P:WGP.LIGHTS.Light.Color">
+            <summary>
+            Color of the light.
+            </summary>
+        </member>
+        <member name="T:WGP.LIGHTS.LightsManager">
+            <summary>
+            Main light manager. Used to create and handle lights.
+            </summary>
+        </member>
+        <member name="P:WGP.LIGHTS.LightsManager.Target">
+            <summary>
+            Required for the texture rendering. The texture should be drawn on top of the scene with a multiplicative blendmode.
+            </summary>
+        </member>
+        <member name="P:WGP.LIGHTS.LightsManager.View">
+            <summary>
+            The view of the window, if different from the textures.
+            </summary>
+        </member>
+        <member name="P:WGP.LIGHTS.LightsManager.ShadowsColor">
+            <summary>
+            The shadows / ambient color.
+            </summary>
+        </member>
+        <member name="M:WGP.LIGHTS.LightsManager.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:WGP.LIGHTS.LightsManager.NewLight">
+            <summary>
+            Adds a new light.
+            </summary>
+            <returns>New light.</returns>
+        </member>
+        <member name="M:WGP.LIGHTS.LightsManager.NewWall">
+            <summary>
+            Adds a new wall.
+            </summary>
+            <returns>New wall.</returns>
+        </member>
+        <member name="M:WGP.LIGHTS.LightsManager.NewWall(WGP.Segment)">
+            <summary>
+            Adds a new wall.
+            </summary>
+            <param name="body">The body of the wall.</param>
+            <returns>New wall.</returns>
+        </member>
+        <member name="M:WGP.LIGHTS.LightsManager.UpdateTarget">
+            <summary>
+            Updates the texture to match the lights and walls.
+            </summary>
+        </member>
+        <member name="T:WGP.LIGHTS.Wall">
+            <summary>
+            A wall for the light manager.
+            </summary>
+        </member>
+        <member name="P:WGP.LIGHTS.Wall.Body">
+            <summary>
+            The line describing the wall.
+            </summary>
+        </member>
+    </members>
+</doc>
